@@ -5,10 +5,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.don.onews.ui.fragment.HomeFragment;
-import com.don.onews.ui.fragment.SearchFragment;
-import com.don.onews.ui.fragment.SettingFragment;
-import com.don.onews.ui.fragment.VideoFragment;
+import com.don.onews.ui.home.fragment.HomeFragment;
+import com.don.onews.ui.search.fragment.SearchFragment;
+import com.don.onews.ui.setting.fragment.SettingFragment;
+import com.don.onews.ui.video.fragment.VideoFragment;
 
 import java.util.ArrayList;
 

@@ -6,7 +6,10 @@ package com.don.onews.base;
 
 public interface BaseView {
     /*******内嵌加载*******/
-    void showLoading(String title);
-    void stopLoading();
-    void showErrorTip(String msg);
+    //显示加载页
+    void showProgress();
+    //关闭加载页
+    void hideProgress();
+    //显示加载失败
+    void showLoadFailMsg();
 }

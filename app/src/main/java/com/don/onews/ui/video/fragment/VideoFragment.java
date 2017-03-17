@@ -1,4 +1,4 @@
-package com.don.onews.ui.fragment;
+package com.don.onews.ui.video.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,13 +16,13 @@ import butterknife.ButterKnife;
  * Created by drcom on 2017/3/17.
  */
 
-public class SettingFragment extends BaseFragment {
+public class VideoFragment extends BaseFragment {
     @BindView(R.id.message)
     TextView message;
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_setting;
+        return R.layout.fragment_video;
     }
 
     @Override
@@ -34,5 +34,4 @@ public class SettingFragment extends BaseFragment {
     protected void initView() {
 
     }
-
 }

@@ -1,4 +1,4 @@
-package com.don.onews.ui.fragment;
+package com.don.onews.ui.home.fragment;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -6,8 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.blankj.utilcode.utils.LogUtils;
 import com.don.onews.R;
+import com.don.onews.api.ApiConstant;
+import com.don.onews.app.AppConstant;
 import com.don.onews.base.BaseFragment;
+import com.don.onews.ui.home.presenter.HomePresenter;
 import com.xiaochao.lcrapiddeveloplibrary.viewtype.ProgressActivity;
 import com.xiaochao.lcrapiddeveloplibrary.widget.SpringView;
 
@@ -27,6 +31,8 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.progress)
     ProgressActivity progress;
 
+    private HomePresenter homePresenter;
+
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_home;
@@ -40,6 +46,9 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initView() {
         progress.showContent();
+        homePresenter = new HomePresenter();
+        homePresenter.loadHomeListDataRequest("toutiao", ApiConstant.APPKEY,0);
+
 
     }
 

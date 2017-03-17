@@ -1,4 +1,4 @@
-package com.don.onews;
+package com.don.onews.ui;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blankj.utilcode.utils.LogUtils;
+import com.don.onews.R;
 import com.don.onews.base.BaseActivity;
 import com.don.onews.ui.FragmentController;
 import com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationItem;

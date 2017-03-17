@@ -1,14 +1,10 @@
-package com.don.onews;
+package com.don.onews.ui;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
-import android.widget.ImageView;
 
+import com.don.onews.R;
 import com.don.onews.base.BaseActivity;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by drcom on 2017/3/16.

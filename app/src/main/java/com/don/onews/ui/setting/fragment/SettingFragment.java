@@ -1,4 +1,4 @@
-package com.don.onews.ui.fragment;
+package com.don.onews.ui.setting.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,13 +16,13 @@ import butterknife.ButterKnife;
  * Created by drcom on 2017/3/17.
  */
 
-public class SearchFragment extends BaseFragment {
+public class SettingFragment extends BaseFragment {
     @BindView(R.id.message)
     TextView message;
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_search;
+        return R.layout.fragment_setting;
     }
 
     @Override
