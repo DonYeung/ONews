@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+
 def releaseTime() {
     return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
 }
@@ -11,7 +12,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.don.onews"
-        minSdkVersion 14
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -65,4 +66,8 @@ dependencies {
     //工具类
     compile 'com.android.support:multidex:1.0.0'
     //分包
+    compile 'com.github.armcha:LuseenBottomNavigation:1.8.2'
+    //BottomNavigation
+    //android快速开发框架--快速实现 异常奔溃统一管理 页面 加载中 加载失败 无数据等状态以及下拉刷新和自动加载
+    compile project(':lcrapiddeveloplibrary')
 }
