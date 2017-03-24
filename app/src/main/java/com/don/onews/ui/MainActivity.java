@@ -67,13 +67,13 @@ public class MainActivity extends BaseActivity {
         hometabToolbarTextviewTitle = (TextView) findViewById(R.id.hometab_toolbar_textview_title);
 
         BottomNavigationItem bottomNavigationItem = new BottomNavigationItem
-                ("新闻", ContextCompat.getColor(this, R.color.colorPrimary), R.drawable.ic_home_black_24dp);
+                (mContext.getResources().getString(R.string.news), ContextCompat.getColor(this, R.color.colorPrimary), R.drawable.ic_home_black_24dp);
         BottomNavigationItem bottomNavigationItem1 = new BottomNavigationItem
-                ("视频", ContextCompat.getColor(this, R.color.colorPrimary), R.drawable.ic_dashboard_black_24dp);
+                (mContext.getResources().getString(R.string.videos), ContextCompat.getColor(this, R.color.colorPrimary), R.drawable.ic_dashboard_black_24dp);
         BottomNavigationItem bottomNavigationItem2 = new BottomNavigationItem
-                ("搜索", ContextCompat.getColor(this, R.color.colorPrimary), R.drawable.ic_notifications_black_24dp);
+                (mContext.getResources().getString(R.string.search), ContextCompat.getColor(this, R.color.colorPrimary), R.drawable.ic_notifications_black_24dp);
         BottomNavigationItem bottomNavigationItem3 = new BottomNavigationItem
-                ("设置", ContextCompat.getColor(this, R.color.colorPrimary), R.drawable.ic_notifications_black_24dp);
+                (mContext.getResources().getString(R.string.setting), ContextCompat.getColor(this, R.color.colorPrimary), R.drawable.ic_notifications_black_24dp);
         navigation.addTab(bottomNavigationItem);
         navigation.addTab(bottomNavigationItem1);
         navigation.addTab(bottomNavigationItem2);

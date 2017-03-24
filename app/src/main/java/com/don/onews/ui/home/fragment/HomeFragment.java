@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
  * Created by drcom on 2017/3/17.
  */
 
-public class HomeFragment extends BaseFragment<HomePresenter, HomeModel> implements HomeContract.View, BaseQuickAdapter.RequestLoadMoreListener, SpringView.OnFreshListener, BaseQuickAdapter.OnRecyclerViewItemClickListener {
+public class HomeFragment extends BaseFragment<HomePresenter, HomeModel> implements HomeContract.View, SpringView.OnFreshListener, BaseQuickAdapter.OnRecyclerViewItemClickListener {
 
     @BindView(R.id.rv_list)
     RecyclerView mRecyclerView;
@@ -81,7 +81,7 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeModel> impleme
         //将适配器添加到RecyclerView
         mRecyclerView.setAdapter(mQuickAdapter);
         //设置自动加载监听
-        mQuickAdapter.setOnLoadMoreListener(this);
+//        mQuickAdapter.setOnLoadMoreListener(this); //api只有一页数据
         //请求网络数据
         mPresenter.loadHomeListDataRequest(mHomeType, ApiConstant.APPKEY, PageIndex);
 
@@ -125,14 +125,14 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeModel> impleme
 
     }
 
-    @Override
-    public void onLoadMoreRequested() {
-        PageIndex++;
-        //请求网络数据
-        mPresenter.loadHomeListDataRequest(mHomeType, ApiConstant.APPKEY, PageIndex);
-        //新增自动加载的的数据
-        mQuickAdapter.notifyDataChangedAfterLoadMore(mQuickAdapter.getData(), true);
-    }
+//    @Override
+//    public void onLoadMoreRequested() {
+//        PageIndex++;
+//        //请求网络数据
+//        mPresenter.loadHomeListDataRequest(mHomeType, ApiConstant.APPKEY, PageIndex);
+//        //新增自动加载的的数据
+//        mQuickAdapter.notifyDataChangedAfterLoadMore(mQuickAdapter.getData(), true);
+//    }
 
     @Override
     public void onRefresh() {

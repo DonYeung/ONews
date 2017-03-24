@@ -27,8 +27,8 @@ public class ListViewAdapter extends BaseQuickAdapter<HomeData.ResultBean.DataBe
                 .crossFade()
                 .placeholder(R.mipmap.ic_launcher)
                 .into((ImageView) helper.getView(R.id.book_info_image_url));
-        helper.setText(R.id.book_info_textview_name,item.getCategory());
-        helper.setText(R.id.book_info_textview_author,item.getAuthor_name());
-        helper.setText(R.id.book_info_textview_introduction,"标题:"+item.getTitle());
+        helper.setText(R.id.newstitle,String.format(mContext.getResources().getString(R.string.newstitle),String.valueOf(item.getTitle())));
+        helper.setText(R.id.newsauthor,item.getAuthor_name());
+        helper.setText(R.id.newstime,String.format(mContext.getResources().getString(R.string.newstime),String.valueOf(item.getDate())));
     }
 }

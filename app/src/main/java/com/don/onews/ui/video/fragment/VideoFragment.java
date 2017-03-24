@@ -140,9 +140,7 @@ public class VideoFragment extends BaseFragment<VideoPresenter, VideoModel> impl
     //自动加载
     @Override
     public void onLoadMoreRequested() {
-        if (PageIndex<10) {
             PageIndex++;
-        }
         //请求网络数据
 //        mPresenter.loadVideoListDataRequest(AppConstant.DATA_TYPE_REST_VIDEO, PageIndex,true);
         mPresenter.loadVideoListDataRequest("0", "0", PageIndex,true);

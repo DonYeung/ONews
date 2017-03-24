@@ -25,8 +25,8 @@ public class VideoPresenter extends VideoContract.Presenter {
                     protected void _onNext(Video videoDatas) {
                         LogUtils.d("isload:"+isload);
                         if (isload){
-
-                            if (videoDatas.getData().size()==0){
+                            //api 视频列表数据小于20即到底
+                            if (videoDatas.getData().size()<20){
                                 mView.showLoadCompleteAllData();
                                 mView.hideProgress();
                             }
