@@ -1,30 +1,32 @@
 package com.don.onews.ui.home.presenter;
 import com.don.onews.bean.HomeData;
 import com.don.onews.ui.home.contract.HomeContract;
-import com.don.onews.ui.home.model.OnLoadDataListListener;
-
-import java.util.List;
+import com.don.onews.utils.baserx.RxSubscriber;
 
 /**
 * Created by drcom on 2017/03/17
 */
 
-public class HomePresenter extends HomeContract.Presenter implements OnLoadDataListListener<HomeData> {
+public class HomePresenter extends HomeContract.Presenter  {
 
     @Override
     public void loadHomeListDataRequest(String type, String key, int startPage) {
-        mModel.loadHomeListData(type,key,startPage);
+        mRxManage.add(mModel.loadHomeListData(type,key,startPage)
+                .subscribe(new RxSubscriber<HomeData.ResultBean>(mContext,false) {
+            @Override
+            protected void _onNext(HomeData.ResultBean homeData) {
+                mView.returnHomeListData(homeData);
+                mView.hideProgress();
+            }
+
+            @Override
+            protected void _onError(String message) {
+                mView.showLoadFailMsg(message);
+
+            }
+        }));
+
     }
 
-    @Override
-    public void onSuccess(HomeData data) {
-        mView.returnHomeListData(data);
-        mView.hideProgress();
-    }
 
-    @Override
-    public void onFailure(Throwable e) {
-        mView.showLoadFailMsg();
-
-    }
 }

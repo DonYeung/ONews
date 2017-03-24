@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.blankj.utilcode.utils.ToastUtils;
+import com.don.onews.utils.TUtil;
+import com.don.onews.utils.baserx.RxManager;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -17,8 +19,11 @@ import butterknife.Unbinder;
  * Created by drcom on 2017/3/16.
  */
 
-public abstract  class BaseFragment extends Fragment {
+public abstract  class BaseFragment<T extends BasePresenter, E extends BaseModel> extends Fragment {
     protected View rootView;
+    public T mPresenter;
+    public E mModel;
+    public RxManager mRxManager;
     Unbinder mUnbinder;
 
     @Nullable
@@ -26,9 +31,14 @@ public abstract  class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (rootView == null)
             rootView = inflater.inflate(getLayoutResource(), container, false);
-
+        mRxManager=new RxManager();
         ButterKnife.bind(this, rootView);
         mUnbinder = ButterKnife.bind(this, rootView);
+        mPresenter = TUtil.getT(this, 0);
+        mModel= TUtil.getT(this,1);
+        if(mPresenter!=null){
+            mPresenter.mContext=this.getActivity();
+        }
         initPresenter();
         initView();
         return rootView;
@@ -120,6 +130,9 @@ public abstract  class BaseFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
+        if (mPresenter != null)
+            mPresenter.onDestroy();
+        mRxManager.clear();
     }
 
 

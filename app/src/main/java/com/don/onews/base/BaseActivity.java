@@ -10,9 +10,9 @@ import android.view.Window;
 import com.blankj.utilcode.utils.ToastUtils;
 import com.don.onews.BuildConfig;
 import com.don.onews.app.Application;
-import com.don.onews.utils.RxManager;
 import com.don.onews.utils.StatusBarCompat;
 import com.don.onews.utils.TUtil;
+import com.don.onews.utils.baserx.RxManager;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -21,7 +21,10 @@ import butterknife.Unbinder;
  * Created by drcom on 2017/3/16.
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity <T extends BasePresenter, E extends BaseModel> extends AppCompatActivity {
+    public T mPresenter;
+    public E mModel;
+    public RxManager mRxManager;
 
     public Context mContext;
     Unbinder mUnbinder;
@@ -29,12 +32,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mRxManager=new RxManager();
         doBeforeSetcontentView();
         setContentView(getLayoutId());
         ButterKnife.bind(this);
         mContext = this;
         mUnbinder = ButterKnife.bind(this);
+        mPresenter = TUtil.getT(this, 0);
+        mModel=TUtil.getT(this,1);
+        if(mPresenter!=null){
+            mPresenter.mContext=this;
+        }
         this.initPresenter();
         this.initView();
     }
@@ -174,6 +182,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mPresenter != null)
+            mPresenter.onDestroy();
+        mRxManager.clear();
         mUnbinder.unbind();
         BaseApplication.getInstance().finishActivity(this);
     }

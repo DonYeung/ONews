@@ -16,7 +16,6 @@ import com.luseen.luseenbottomnavigation.BottomNavigation.OnBottomNavigationItem
 
 public class MainActivity extends BaseActivity {
 
-    private TextView mTextMessage;
     private TextView hometabToolbarTextviewTitle;
     private FragmentController controller;
     private BottomNavigationView navigation;
@@ -28,23 +27,19 @@ public class MainActivity extends BaseActivity {
         public void onNavigationItemClick(int index) {
             switch (index) {
                 case 0:
-                    mTextMessage.setText(R.string.title_home);
-                    hometabToolbarTextviewTitle.setText("推荐");
+                    hometabToolbarTextviewTitle.setText("新闻");
                     setDefaultFragment(index);
                     break;
 
                 case 1:
-                    mTextMessage.setText(R.string.title_dashboard);
-                    hometabToolbarTextviewTitle.setText("书库");
+                    hometabToolbarTextviewTitle.setText("视频");
                     setDefaultFragment(index);
                     break;
                 case 2:
-                    mTextMessage.setText(R.string.title_notifications);
                     hometabToolbarTextviewTitle.setText("搜索");
                     setDefaultFragment(index);
                     break;
                 case 3:
-                    mTextMessage.setText(R.string.title_notifications);
                     hometabToolbarTextviewTitle.setText("设置");
                     setDefaultFragment(index);
                     break;
@@ -68,14 +63,13 @@ public class MainActivity extends BaseActivity {
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void initView() {
-        mTextMessage = (TextView) findViewById(R.id.message);
          navigation = (BottomNavigationView) findViewById(R.id.navigation);
         hometabToolbarTextviewTitle = (TextView) findViewById(R.id.hometab_toolbar_textview_title);
 
         BottomNavigationItem bottomNavigationItem = new BottomNavigationItem
-                ("推荐", ContextCompat.getColor(this, R.color.colorPrimary), R.drawable.ic_home_black_24dp);
+                ("新闻", ContextCompat.getColor(this, R.color.colorPrimary), R.drawable.ic_home_black_24dp);
         BottomNavigationItem bottomNavigationItem1 = new BottomNavigationItem
-                ("书库", ContextCompat.getColor(this, R.color.colorPrimary), R.drawable.ic_dashboard_black_24dp);
+                ("视频", ContextCompat.getColor(this, R.color.colorPrimary), R.drawable.ic_dashboard_black_24dp);
         BottomNavigationItem bottomNavigationItem2 = new BottomNavigationItem
                 ("搜索", ContextCompat.getColor(this, R.color.colorPrimary), R.drawable.ic_notifications_black_24dp);
         BottomNavigationItem bottomNavigationItem3 = new BottomNavigationItem

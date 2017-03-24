@@ -1,13 +1,15 @@
 package com.don.onews.api;
 
+import com.don.onews.bean.GankVideoData;
 import com.don.onews.bean.HomeData;
 import com.don.onews.bean.HttpResult;
+import com.don.onews.bean.Video;
+import com.don.onews.utils.baserx.RxSchedulers;
+
+import java.util.List;
 
 import rx.Observable;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by drcom on 2017/3/17.
@@ -26,29 +28,32 @@ public class Apiwrapper extends RetrofitUtils {
         return mAPIWrapper;
     }
 
-    //demo
-    public Observable getHomeTop(String type, String key, int page, Observer<HomeData> observer){
+    public Observable getHomeTop(String type, String key, int page){
 
-        Observable observable =RetrofitUtils.getAPIService().getHomeTop(type,key,page).map(new HttpResultFunc<HomeData>());;
-
-        setSubscribe(observable, observer);
+        Observable observable =RetrofitUtils.getAPIService().getHomeTop(type,key,page)
+                .map(new HttpResultFunc<HomeData.ResultBean>())//过滤HttpResult头
+                .compose(RxSchedulers.<HomeData.ResultBean>io_main());//声明线程调度
 
         return observable;
     }
 
-    /**
-     * 插入观察者
-     *
-     * @param observable
-     * @param observer
-     * @param <T>
-     */
-    public static <T> void setSubscribe(Observable<T> observable, Observer<T> observer) {
-        observable.subscribeOn(Schedulers.io())
-                .subscribeOn(Schedulers.newThread())//子线程访问网络
-                .observeOn(AndroidSchedulers.mainThread())//回调到主线程
-                .subscribe(observer);
+    public Observable getGankVideo(String type, int startPage){
+        Observable observable =RetrofitUtils.getAPIService().getGankVideoList(type,startPage)
+                //声明线程调度
+                .compose(RxSchedulers.<GankVideoData>io_main());
+
+        return observable;
     }
+
+    public Observable getvideo(String type, String category_id, int startPage){
+        Observable observable =RetrofitUtils.getAPIService().getvideo(type,category_id,startPage)
+                //声明线程调度
+                .compose(RxSchedulers.<Video>io_main());
+
+        return observable;
+    }
+
+
     /**
      * 用来统一处理Http的resultCode,并将HttpResult的Data部分剥离出来返回给subscriber
      *

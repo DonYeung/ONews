@@ -1,9 +1,16 @@
 package com.don.onews.api;
 
+import com.don.onews.bean.GankVideoData;
 import com.don.onews.bean.HttpResult;
 import com.don.onews.bean.HomeData;
+import com.don.onews.bean.Video;
+
+import java.util.List;
 
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -14,9 +21,20 @@ import rx.Observable;
 public interface APIService {
 
     //获取首页详情
-    @GET("")
-    Observable<HttpResult<HomeData>> getHomeTop(@Query("type") String type,
+    @GET("/toutiao/index")
+    Observable<HttpResult<HomeData.ResultBean>> getHomeTop(@Query("type") String type,
                                                 @Query("key") String key,
                                                 @Query("page") int page);
+
+    @GET(ApiConstant.GANKHOST+"data/{type}/10/{Page}")
+    Observable<GankVideoData> getGankVideoList(@Path("type") String type,
+                                                          @Path("Page") int startPage);
+
+    @POST("http://www.shiyan360.cn/index.php/api/chuangke_list")
+    Observable<Video> getvideo(
+            @Query("desc_type") String desc_type,
+            @Query("category_id") String category_id,
+            @Query("page") int page);
+
 
 }

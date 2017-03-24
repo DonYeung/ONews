@@ -16,11 +16,11 @@ import rx.Observable;
 public interface HomeContract {
     interface Model extends BaseModel {
         //请求获取视频
-        Observable<HomeData> loadHomeListData(String type, String key,int startPage);
+        Observable<HomeData.ResultBean> loadHomeListData(String type, String key,int startPage);
     }
 
     interface View extends BaseView {
-        void returnHomeListData(HomeData homeData);
+        void returnHomeListData(HomeData.ResultBean homeData);
     }
 
 

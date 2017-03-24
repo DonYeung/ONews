@@ -11,5 +11,7 @@ public interface BaseView {
     //关闭加载页
     void hideProgress();
     //显示加载失败
-    void showLoadFailMsg();
+    void showLoadFailMsg(String msg);
+    //显示已加载所有数据
+    void showLoadCompleteAllData();
 }

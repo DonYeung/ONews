@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.don.onews.ui.home.fragment.HomeFragment;
+import com.don.onews.ui.home.fragment.HomeMainFragment;
 import com.don.onews.ui.search.fragment.SearchFragment;
 import com.don.onews.ui.setting.fragment.SettingFragment;
 import com.don.onews.ui.video.fragment.VideoFragment;
@@ -40,7 +40,7 @@ public class FragmentController {
 
 	private void initFragment() {
 		fragments = new ArrayList<Fragment>();
-		fragments.add(new HomeFragment());
+		fragments.add(new HomeMainFragment());
 		fragments.add(new VideoFragment());
 		fragments.add(new SearchFragment());
 		fragments.add(new SettingFragment());

@@ -19,12 +19,19 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.MainActivity"/>
+        <activity android:name=".ui.MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.don.onews.ui.home.activity.NewsBrowserActivity"/>
     </application>
 
 
     <!-- 修复buly #42338 java.lang.SecurityException -->
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+
     <!-- 扫描权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -37,7 +44,6 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <!-- 读手机信息 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
 
 </manifest>
