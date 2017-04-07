@@ -3,9 +3,12 @@ package com.don.onews.api;
 import com.don.onews.bean.GankVideoData;
 import com.don.onews.bean.HttpResult;
 import com.don.onews.bean.HomeData;
+import com.don.onews.bean.NewsDetail;
+import com.don.onews.bean.NewsSummary;
 import com.don.onews.bean.Video;
 
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -25,6 +28,17 @@ public interface APIService {
     Observable<HttpResult<HomeData.ResultBean>> getHomeTop(@Query("type") String type,
                                                 @Query("key") String key,
                                                 @Query("page") int page);
+
+    //获取新闻首页
+    @GET("http://c.m.163.com/nc/article/{type}/{id}/{startPage}-20.html")
+    Observable<Map<String,List<NewsSummary>>> getNewsList(@Path("type") String type,
+                                              @Path("id") String id,
+                                              @Path("startPage") int startPage);
+    //获取新闻详情　
+    @GET("nc/article/{postId}/full.html")
+    Observable<Map<String, NewsDetail>> getNewDetail(
+            @Path("postId") String postId);
+
 
     @GET(ApiConstant.GANKHOST+"data/{type}/10/{Page}")
     Observable<GankVideoData> getGankVideoList(@Path("type") String type,

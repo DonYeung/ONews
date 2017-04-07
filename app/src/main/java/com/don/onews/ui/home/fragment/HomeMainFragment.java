@@ -50,31 +50,36 @@ public class HomeMainFragment extends BaseFragment {
     @Override
     protected void initView() {
         ArrayList<String> channelType = new ArrayList<>();
-        channelType.add(0,"top");
-        channelType.add(1,"shehui");
-        channelType.add(2,"guonei");
-        channelType.add(3,"guoji");
-        channelType.add(4,"yule");
-        channelType.add(5,"tiyu");
-        channelType.add(6,"junshi");
-        channelType.add(7,"keji");
-        channelType.add(8,"caijing");
-        channelType.add(9,"shishang");
+        channelType.add(0,"headline");
+        channelType.add(1,"list");
+        channelType.add(2,"list");
+        channelType.add(3,"list");
+        channelType.add(4,"list");
+        channelType.add(5,"list");
+        channelType.add(6,"list");
+        channelType.add(7,"list");
+        ArrayList<String> channelId = new ArrayList<>();
+        channelId.add(0,"T1348647909107");
+        channelId.add(1,"T1348649580692");
+        channelId.add(2,"T1348648756099");
+        channelId.add(3,"T1348648141035");
+        channelId.add(4,"T1348649079062");
+        channelId.add(5,"T1348648517839");
+        channelId.add(6,"T1348648650048");
+        channelId.add(7,"T1370583240249");
         ArrayList<String> channelName = new ArrayList<>();
         channelName.add(0,"头条");
-        channelName.add(1,"社会");
-        channelName.add(2,"国内");
-        channelName.add(3,"国际");
-        channelName.add(4,"娱乐");
-        channelName.add(5,"体育");
-        channelName.add(6,"军事");
-        channelName.add(7,"科技");
-        channelName.add(8,"财经");
-        channelName.add(9,"时尚");
+        channelName.add(1,"科技");
+        channelName.add(2,"财经");
+        channelName.add(3,"军事");
+        channelName.add(4,"体育");
+        channelName.add(5,"娱乐");
+        channelName.add(6,"电影");
+        channelName.add(7,"精选");
 
         List<Fragment> mNewsFragmentList = new ArrayList<>();
         for (int i = 0; i < channelType.size(); i++) {
-            mNewsFragmentList.add(createListFragments(channelType.get(i)));
+            mNewsFragmentList.add(createListFragments(channelId.get(i),channelType.get(i)));
         }
 
         fragmentAdapter = new BaseFragmentAdapter(getChildFragmentManager(), mNewsFragmentList, channelName);
@@ -101,11 +106,12 @@ public class HomeMainFragment extends BaseFragment {
             }
         });
     }
-    private HomeFragment createListFragments( String channelType) {
+    private HomeFragment createListFragments( String chanelId,String channelType) {
         HomeFragment fragment = new HomeFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putString(AppConstant.HOME_TYPE, channelType);
+        bundle.putString(AppConstant.NEWS_TYPE, channelType);
+        bundle.putString(AppConstant.NEWS_ID, chanelId);
         fragment.setArguments(bundle);
         return fragment;
     }

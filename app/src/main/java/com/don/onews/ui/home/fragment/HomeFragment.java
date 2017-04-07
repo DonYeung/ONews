@@ -1,6 +1,5 @@
 package com.don.onews.ui.home.fragment;
 
-import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,11 +7,10 @@ import android.view.ViewGroup;
 
 import com.blankj.utilcode.utils.LogUtils;
 import com.don.onews.R;
-import com.don.onews.api.ApiConstant;
 import com.don.onews.app.AppConstant;
 import com.don.onews.base.BaseFragment;
-import com.don.onews.bean.HomeData;
-import com.don.onews.ui.home.activity.NewsBrowserActivity;
+import com.don.onews.bean.NewsSummary;
+import com.don.onews.ui.webview.WebViewBrowserActivity;
 import com.don.onews.ui.home.adapter.ListViewAdapter;
 import com.don.onews.ui.home.contract.HomeContract;
 import com.don.onews.ui.home.model.HomeModel;
@@ -22,14 +20,15 @@ import com.xiaochao.lcrapiddeveloplibrary.container.RotationHeader;
 import com.xiaochao.lcrapiddeveloplibrary.viewtype.ProgressActivity;
 import com.xiaochao.lcrapiddeveloplibrary.widget.SpringView;
 
+import java.util.List;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by drcom on 2017/3/17.
  */
 
-public class HomeFragment extends BaseFragment<HomePresenter, HomeModel> implements HomeContract.View, SpringView.OnFreshListener, BaseQuickAdapter.OnRecyclerViewItemClickListener {
+public class HomeFragment extends BaseFragment<HomePresenter, HomeModel> implements HomeContract.View,BaseQuickAdapter.RequestLoadMoreListener,SpringView.OnFreshListener, BaseQuickAdapter.OnRecyclerViewItemClickListener {
 
     @BindView(R.id.rv_list)
     RecyclerView mRecyclerView;
@@ -39,8 +38,9 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeModel> impleme
     ProgressActivity progress;
 
     private ListViewAdapter mQuickAdapter;
-    private int PageIndex = 1;
-    private String mHomeType;
+    private int PageIndex = 0;
+    private String mNewsId;
+    private String mNewsType;
 
 
     @Override
@@ -57,7 +57,8 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeModel> impleme
     protected void initView() {
         if (getArguments() != null) {
 
-            mHomeType = getArguments().getString(AppConstant.HOME_TYPE);
+            mNewsType = getArguments().getString(AppConstant.NEWS_TYPE);
+            mNewsId = getArguments().getString(AppConstant.NEWS_ID);
         }
 
         //设置下拉刷新监听
@@ -71,6 +72,7 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeModel> impleme
         mRecyclerView.setHasFixedSize(true);
         //设置页面为加载中..
         progress.showLoading();
+        mRecyclerView.setNestedScrollingEnabled(false);
 
         //设置适配器
         mQuickAdapter = new ListViewAdapter(R.layout.list_view_item_layout, null);
@@ -81,9 +83,9 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeModel> impleme
         //将适配器添加到RecyclerView
         mRecyclerView.setAdapter(mQuickAdapter);
         //设置自动加载监听
-//        mQuickAdapter.setOnLoadMoreListener(this); //api只有一页数据
+        mQuickAdapter.setOnLoadMoreListener(this); //api只有一页数据
         //请求网络数据
-        mPresenter.loadHomeListDataRequest(mHomeType, ApiConstant.APPKEY, PageIndex);
+        mPresenter.loadHomeListDataRequest(mNewsType, mNewsId, PageIndex,false);
 
         mQuickAdapter.setOnRecyclerViewItemClickListener(this);
 
@@ -105,9 +107,9 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeModel> impleme
         progress.showError(getResources().getDrawable(R.mipmap.ic_launcher), AppConstant.ERROR_TITLE, AppConstant.ERROR_CONTEXT, AppConstant.ERROR_BUTTON, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PageIndex = 1;
+                PageIndex = 0;
                 //请求网络数据
-                mPresenter.loadHomeListDataRequest(mHomeType, ApiConstant.APPKEY, PageIndex);
+                mPresenter.loadHomeListDataRequest(mNewsType, mNewsId, PageIndex,false);
             }
         });
     }
@@ -116,28 +118,33 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeModel> impleme
 
 
     @Override
-    public void returnHomeListData(HomeData.ResultBean homeData) {
-        LogUtils.d("homeData:" + homeData.getData().get(0).getDate());
+    public void returnHomeListData(List<NewsSummary> homeData) {
+        LogUtils.d("homeData:" + homeData.get(0).getPtime());
+
         //进入显示的初始数据或者下拉刷新显示的数据
-        mQuickAdapter.setNewData(homeData.getData());//新增数据
-        mQuickAdapter.openLoadMore(10, true);//设置是否可以下拉加载  以及加载条数
+        mQuickAdapter.setNewData(homeData);//新增数据
+        mQuickAdapter.openLoadMore(20, true);//设置是否可以下拉加载  以及加载条数
         springview.onFinishFreshAndLoad();//刷新完成
 
     }
 
-//    @Override
-//    public void onLoadMoreRequested() {
-//        PageIndex++;
-//        //请求网络数据
-//        mPresenter.loadHomeListDataRequest(mHomeType, ApiConstant.APPKEY, PageIndex);
-//        //新增自动加载的的数据
-//        mQuickAdapter.notifyDataChangedAfterLoadMore(mQuickAdapter.getData(), true);
-//    }
+    @Override
+    public void addHomeListData(List<NewsSummary> homeDatas) {
+        //新增自动加载的的数据
+        mQuickAdapter.notifyDataChangedAfterLoadMore(homeDatas, true);
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        PageIndex+=20;
+        //请求网络数据
+        mPresenter.loadHomeListDataRequest(mNewsType, mNewsId, PageIndex,true);
+    }
 
     @Override
     public void onRefresh() {
-        PageIndex = 1;
-        mPresenter.loadHomeListDataRequest(mHomeType, ApiConstant.APPKEY, PageIndex);
+        PageIndex = 0;
+        mPresenter.loadHomeListDataRequest(mNewsType, mNewsId, PageIndex,false);
     }
 
     @Override
@@ -151,8 +158,8 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeModel> impleme
 //        intent.putExtra("bookid", mQuickAdapter.getItem(position).getId());
 //        startActivity(intent);
         String mNewsTitle = mQuickAdapter.getItem(position).getTitle();
-        String mNewsLink = mQuickAdapter.getItem(position).getUrl();
-        NewsBrowserActivity.startAction(getActivity(), mNewsLink, mNewsTitle);
+        String mNewsLink = mQuickAdapter.getItem(position).getDigest();
+        WebViewBrowserActivity.startAction(getActivity(), mNewsLink, mNewsTitle);
         LogUtils.d("点击："+mQuickAdapter.getItem(position).getTitle());
 
     }

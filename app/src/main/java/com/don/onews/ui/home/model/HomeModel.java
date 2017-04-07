@@ -2,7 +2,10 @@ package com.don.onews.ui.home.model;
 
 import com.don.onews.api.Apiwrapper;
 import com.don.onews.bean.HomeData;
+import com.don.onews.bean.NewsSummary;
 import com.don.onews.ui.home.contract.HomeContract;
+
+import java.util.List;
 
 import rx.Observable;
 
@@ -13,8 +16,8 @@ import rx.Observable;
 public class HomeModel implements HomeContract.Model {
 
     @Override
-    public Observable<HomeData.ResultBean> loadHomeListData(String type, String key, int startPage) {
-        return Apiwrapper.getInstance().getHomeTop(type, key, startPage);
+    public Observable<List<NewsSummary>> loadHomeListData(String type, String key, int startPage) {
+        return Apiwrapper.getInstance().getNewsList(type, key, startPage);
     }
 }
 

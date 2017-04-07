@@ -21,7 +21,7 @@
 
         <activity android:name=".ui.MainActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name="com.don.onews.ui.home.activity.NewsBrowserActivity"/>
+        <activity android:name="com.don.onews.ui.webview.WebViewBrowserActivity"/>
     </application>
 
 

@@ -5,6 +5,8 @@ package com.don.onews.api;
  */
 
 import com.don.onews.app.AppConstant;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -31,7 +33,6 @@ public abstract class RetrofitUtils {
             if (null == mOkHttpClient) {
                 mOkHttpClient = OkHttp3Utils.getOkHttpClient();
             }
-
             //Retrofit2后使用build设计模式
             mRetrofit = new Retrofit.Builder()
                     //设置服务器路径

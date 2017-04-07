@@ -1,4 +1,4 @@
-package com.don.onews.ui.home.activity;
+package com.don.onews.ui.webview;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 
 import com.don.onews.R;
 import com.don.onews.app.AppConstant;
@@ -17,13 +18,12 @@ import com.xiaochao.lcrapiddeveloplibrary.viewtype.ProgressActivity;
 import com.xiaochao.lcrapiddeveloplibrary.widget.SpringView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by drcom on 2017/3/22.
  */
 
-public class NewsBrowserActivity extends BaseActivity {
+public class WebViewBrowserActivity extends BaseActivity {
     @BindView(R.id.web_view)
     WebView webView;
     @BindView(R.id.springview)
@@ -32,10 +32,12 @@ public class NewsBrowserActivity extends BaseActivity {
     ProgressActivity progress;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.webViewLayout)
+    LinearLayout webViewLayout;
 
     @Override
     public int getLayoutId() {
-        return R.layout.act_news_browser;
+        return R.layout.act_web_browser;
     }
 
     @Override
@@ -45,6 +47,8 @@ public class NewsBrowserActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        webView = new WebView(mContext);
+        webViewLayout.addView(webView);
         setWebViewSettings();
         setWebView();
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -60,7 +64,7 @@ public class NewsBrowserActivity extends BaseActivity {
     }
 
     public static void startAction(Context context, String link, String title) {
-        Intent intent = new Intent(context, NewsBrowserActivity.class);
+        Intent intent = new Intent(context, WebViewBrowserActivity.class);
         intent.putExtra(AppConstant.NEWS_LINK, link);
         intent.putExtra(AppConstant.NEWS_TITLE, title);
         context.startActivity(intent);
@@ -68,16 +72,15 @@ public class NewsBrowserActivity extends BaseActivity {
 
     private void setWebViewSettings() {
         WebSettings webSettings = webView.getSettings();
-        // 打开页面时， 自适应屏幕
-        webSettings.setUseWideViewPort(true); //将图片调整到适合webview的大小
-        webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
-        // 便页面支持缩放
+
+        webSettings.setUseWideViewPort(true); //设置此属性，可任意比例缩放
+        webSettings.setLoadWithOverviewMode(true); // 适配缩放至屏幕的大小
         webSettings.setJavaScriptEnabled(true); //支持js
         webSettings.setSupportZoom(true); //支持缩放
+        webSettings.setAppCacheEnabled(true);//开启 Application Caches 功能
+        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);//设置 缓存模式
+        webSettings.setBlockNetworkImage(true);//关闭加载网络图片，在一开始加载的时候可以设置为true，当加载完网页的时候再设置为false
 //        webSettings.setBuiltInZoomControls(true); // 放大和缩小的按钮，容易引发异常 http://blog.csdn.net/dreamer0924/article/details/34082687
-
-        webSettings.setAppCacheEnabled(true);
-        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
     }
 
     private void setWebView() {
@@ -86,6 +89,7 @@ public class NewsBrowserActivity extends BaseActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url != null) view.loadUrl(url);
+                //需要设置在当前WebView中显示网页，才不会跳到默认的浏览器进行显示
                 return true;
             }
         });
@@ -97,7 +101,7 @@ public class NewsBrowserActivity extends BaseActivity {
                     //设置页面加载完 progress隐藏
                     try {
                         progress.showContent();
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                     }
 
@@ -105,7 +109,7 @@ public class NewsBrowserActivity extends BaseActivity {
                     try {
                         //设置页面为加载中..
                         progress.showLoading();
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                     }
 
@@ -113,11 +117,43 @@ public class NewsBrowserActivity extends BaseActivity {
             }
         });
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (webView != null) {
+            webView.onPause();
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (webView != null) {
+            webView.onResume();
+        }
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        webView.removeAllViews();
+        if (webView != null) {
+            webView.clearCache(true); //清空缓存
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (webViewLayout != null) {
+                    webViewLayout.removeView(webView);
+                }
+                webView.removeAllViews();
+                webView.destroy();
+            } else {
+                webView.removeAllViews();
+                webView.destroy();
+                if (webViewLayout != null) {
+                    webViewLayout.removeView(webView);
+                }
+            }
+            webView = null;
+        }
 
     }
+
 
 }

@@ -26,6 +26,12 @@ public class AppConstant {
     public static final String HOME_TYPE = "type";
     public static  String NEWS_LINK = "NEWS_LINK";
     public static  String NEWS_TITLE = "NEWS_TITLE";
+    public static  String NEWS_POST_ID = "NEWS_POST_ID";
+    public static  String NEWS_IMG_RES = "NEWS_IMG_RES";
+
+    public static  String NEWS_TYPE = "news_type";
+    public static  String NEWS_ID = "news_id";
+
 
     public static final String VIDEO_TYPE = "VIDEO_TYPE";
     public static  String VIDEO_LINK = "NEWS_LINK";
