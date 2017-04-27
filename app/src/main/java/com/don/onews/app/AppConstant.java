@@ -28,6 +28,7 @@ public class AppConstant {
     public static  String NEWS_TITLE = "NEWS_TITLE";
     public static  String NEWS_POST_ID = "NEWS_POST_ID";
     public static  String NEWS_IMG_RES = "NEWS_IMG_RES";
+    public static final String TRANSITION_ANIMATION_NEWS_PHOTOS = "transition_animation_news_photos";
 
     public static  String NEWS_TYPE = "news_type";
     public static  String NEWS_ID = "news_id";

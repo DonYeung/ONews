@@ -10,7 +10,7 @@ import com.don.onews.R;
 import com.don.onews.app.AppConstant;
 import com.don.onews.base.BaseFragment;
 import com.don.onews.bean.NewsSummary;
-import com.don.onews.ui.webview.WebViewBrowserActivity;
+import com.don.onews.ui.home.activity.NewsDetailActivity;
 import com.don.onews.ui.home.adapter.ListViewAdapter;
 import com.don.onews.ui.home.contract.HomeContract;
 import com.don.onews.ui.home.model.HomeModel;
@@ -157,9 +157,9 @@ public class HomeFragment extends BaseFragment<HomePresenter, HomeModel> impleme
 //        Intent intent = new Intent(getActivity(), BookInfoActivity.class);
 //        intent.putExtra("bookid", mQuickAdapter.getItem(position).getId());
 //        startActivity(intent);
-        String mNewsTitle = mQuickAdapter.getItem(position).getTitle();
-        String mNewsLink = mQuickAdapter.getItem(position).getDigest();
-        WebViewBrowserActivity.startAction(getActivity(), mNewsLink, mNewsTitle);
+        String postId = mQuickAdapter.getItem(position).getPostid();
+        String imgUrl = mQuickAdapter.getItem(position).getImgsrc();
+        NewsDetailActivity.startAction(getActivity(), postId, imgUrl);
         LogUtils.d("点击："+mQuickAdapter.getItem(position).getTitle());
 
     }

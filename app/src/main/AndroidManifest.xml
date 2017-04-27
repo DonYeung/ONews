@@ -9,6 +9,22 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="BaiduMobAd_APP_ID"
+            android:value="e866cfb0" />
+
+        <!-- for baidu xadsdk internal web-browser -->
+        <!-- 非信息广告必须添加 -->
+        <activity
+            android:name="com.baidu.mobads.AppActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
+        <!-- 信息流广告必须添加 -->
+        <activity
+            android:name="com.baidu.mobad.feeds.BaiduActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation" />
+
         <activity
             android:name=".ui.SplashActivity"
             android:theme="@style/welcomeTheme">
@@ -21,7 +37,31 @@
 
         <activity android:name=".ui.MainActivity"
             android:screenOrientation="portrait"/>
+
         <activity android:name="com.don.onews.ui.webview.WebViewBrowserActivity"/>
+        <activity android:name="com.don.onews.ui.home.activity.NewsDetailActivity"/>
+        <activity android:name="com.don.onews.ui.search.activity.MediaPlayerDemo_Video"/>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.don.onews.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <!--<provider-->
+            <!--android:name="com.baidu.mobads.openad.FileProvider"-->
+            <!--android:authorities="com.don.onews.bd.provider"-->
+            <!--android:exported="false"-->
+            <!--android:grantUriPermissions="true">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
+                <!--android:resource="@xml/provider_paths" />-->
+        <!--</provider>-->
+
     </application>
 
 
@@ -44,6 +84,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <!-- 读手机信息 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 
 </manifest>

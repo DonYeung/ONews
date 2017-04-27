@@ -60,16 +60,17 @@ public class URLImageGetter implements Html.ImageGetter {
 
     @Override
     public Drawable getDrawable(final String source) {
-        Drawable drawable;
+        Drawable drawable = null;
         File file = new File(mFilePath, source.hashCode() + "");
         if (file.exists()) {
             mPicCount++;
             drawable = getDrawableFromDisk(file);
-        } else {
+        } 
+//        else {
 //            drawable = getDrawableFromNet(source);
-        }
+//        }
 //        return drawable;
-        return null;
+        return drawable;
     }
 
     @Nullable

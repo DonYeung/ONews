@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -33,7 +34,7 @@
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.7"
-                tools:targetApi="lollipop" />
+                tools:targetApi="lollipop"/>
 
             <View
                 android:id="@+id/mask_view"
@@ -41,7 +42,8 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/mask_news_detail_photo"
                 android:fitsSystemWindows="true"
-                tools:visibility="visible" />
+                tools:visibility="visible"
+                />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -49,31 +51,14 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@mipmap/ic_arrow_back"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                />
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
-    <!--ProgressActivity用于状态页的控制 比如加载中  网络异常  无数据  适合任何页面-->
-    <com.xiaochao.lcrapiddeveloplibrary.viewtype.ProgressActivity
-        android:id="@+id/progress"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <!--SpringView下拉刷新-->
-            <com.xiaochao.lcrapiddeveloplibrary.widget.SpringView
-                android:id="@+id/springview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#FFFFFF">
 
                 <include layout="@layout/item_content_news_detail" />
-            </com.xiaochao.lcrapiddeveloplibrary.widget.SpringView>
 
-        </LinearLayout>
-    </com.xiaochao.lcrapiddeveloplibrary.viewtype.ProgressActivity>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.utils.LogUtils;
 import com.bumptech.glide.Glide;
 import com.don.onews.R;
 import com.don.onews.app.AppConstant;
@@ -56,12 +57,13 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, NewsDe
     TextView newsDetailFromTv;
     @BindView(R.id.news_detail_body_tv)
     TextView newsDetailBodyTv;
-    @BindView(R.id.springview)
-    SpringView springview;
-    @BindView(R.id.progress)
-    ProgressActivity progress;
+//    @BindView(R.id.springview)
+//    SpringView springview;
+//    @BindView(R.id.progress)
+//    ProgressActivity progress;
 
     private String postId;
+    private String imgUrl;
     private String mNewsTitle;
     private URLImageGetter mUrlImageGetter;
 
@@ -75,9 +77,16 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, NewsDe
         mPresenter.setVM(this, mModel);
     }
 
+
     @Override
     public void initView() {
+        /**1.appBarLayout的背景颜色调为半透明或者透明 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+          2.将toolbar的背景颜色调为半透明或者透明(沉浸状态栏（4.4以上系统有效）)
+         **/
+        SetTranslanteBar();
         postId = getIntent().getStringExtra(AppConstant.NEWS_POST_ID);
+        imgUrl = getIntent().getStringExtra(AppConstant.NEWS_IMG_RES);
+        LogUtils.d("NEWS_POST_ID:"+postId);
         mPresenter.loadNewsDetailDataRequest(postId);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,10 +100,11 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, NewsDe
         });
     }
 
-    public static void startAction(Context context, String link, String title) {
-        Intent intent = new Intent(context, WebViewBrowserActivity.class);
-        intent.putExtra(AppConstant.NEWS_LINK, link);
-        intent.putExtra(AppConstant.NEWS_TITLE, title);
+    public static void startAction(Context context, String postId, String imgUrl) {
+            Intent intent = new Intent(context, NewsDetailActivity.class);
+        intent.putExtra(AppConstant.NEWS_POST_ID, postId);
+        intent.putExtra(AppConstant.NEWS_IMG_RES, imgUrl);
+        LogUtils.d("imgUrl:"+imgUrl);
         context.startActivity(intent);
     }
 
@@ -110,7 +120,7 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, NewsDe
         String newsSource = newsDetail.getSource();
         String newsTime = TimeUtil.formatDate(newsDetail.getPtime());
         String newsBody = newsDetail.getBody();
-        String NewsImgSrc = getImgSrcs(newsDetail);
+        String NewsImgSrc = imgUrl;
 
         setToolBarLayout(mNewsTitle);
         //mNewsDetailTitleTv.setText(newsTitle);
@@ -147,13 +157,13 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, NewsDe
     @Override
     public void showLoadFailMsg(String msg) {
         //设置加载错误页显示
-        progress.showError(getResources().getDrawable(R.mipmap.ic_launcher), AppConstant.ERROR_TITLE, AppConstant.ERROR_CONTEXT, AppConstant.ERROR_BUTTON, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //请求网络数据
-                mPresenter.loadNewsDetailDataRequest(postId);
-            }
-        });
+//        progress.showError(getResources().getDrawable(R.mipmap.ic_launcher), AppConstant.ERROR_TITLE, AppConstant.ERROR_CONTEXT, AppConstant.ERROR_BUTTON, new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //请求网络数据
+//                mPresenter.loadNewsDetailDataRequest(postId);
+//            }
+//        });
     }
 
     @Override

@@ -35,7 +35,7 @@ public interface APIService {
                                               @Path("id") String id,
                                               @Path("startPage") int startPage);
     //获取新闻详情　
-    @GET("nc/article/{postId}/full.html")
+    @GET("http://c.m.163.com/nc/article/{postId}/full.html")
     Observable<Map<String, NewsDetail>> getNewDetail(
             @Path("postId") String postId);
 
